@@ -1,4 +1,4 @@
-require "gosu/spritesheet/version"
+require File.expand_path("../lib/gosu/spritesheet/version.rb", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "gosu-spritesheet"
