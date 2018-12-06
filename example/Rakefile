@@ -1,0 +1,8 @@
+task :bundle do
+  sh "bundle"
+end
+
+task :run => [:bundle] do
+  ruby "example.rb"
+end
+

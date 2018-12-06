@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gosu-spritesheet (0.1.0)
+    gosu-spritesheet (0.0.1)
       gosu (~> 0.14)
 
 GEM

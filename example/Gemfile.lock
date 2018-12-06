@@ -1,0 +1,19 @@
+PATH
+  remote: ..
+  specs:
+    gosu-spritesheet (0.1.0)
+      gosu (~> 0.14)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    gosu (0.14.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gosu-spritesheet!
+
+BUNDLED WITH
+   1.17.1
