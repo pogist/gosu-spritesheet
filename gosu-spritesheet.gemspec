@@ -2,7 +2,7 @@ require File.expand_path("../lib/gosu/spritesheet/version.rb", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "gosu-spritesheet"
-  spec.version       = Gosu::Spritesheet::VERSION
+  spec.version       = Gosu::Spritesheet.version
   spec.authors       = ["pogist"]
   spec.email         = ["murilo.paixao.2@gmail.com"]
 

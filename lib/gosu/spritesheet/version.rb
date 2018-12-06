@@ -1,5 +1,7 @@
 module Gosu
-  module Spritesheet
-    VERSION = "0.0.1"
+  class Spritesheet
+    def self.version
+      "0.0.1"
+    end
   end
 end
