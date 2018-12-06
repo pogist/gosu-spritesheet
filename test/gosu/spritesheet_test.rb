@@ -40,7 +40,7 @@ describe Gosu::Spritesheet do
         Gosu::Spritesheet.new({
           :tiles => dude_tiles,
           :animations => {
-            :default => [0..3, 0.3]
+            :default => { range: [0..3], duration: 0.3 }
           }
         })
       }
