@@ -49,9 +49,55 @@ describe Gosu::Spritesheet do
       let(:default_frames) { dude_tiles }
       let(:default_duration) { 0.2 }
 
-      it "wont be overrided" do
+      it "wont override the new block called `default`" do
         spritesheet.animation(:default).frames.wont_equal default_frames
         spritesheet.animation(:default).duration.wont_equal default_duration
+      end
+    end
+
+    describe "and a custom animation block is in a completely wrong format" do
+      let(:spritesheet) {
+        Gosu::Spritesheet.new({
+          :tiles => dude_tiles,
+          :animations => {
+            :my_custom_animation => { frames: [0..3], anim_duration: 0.2 }
+          }
+        })
+      }
+
+      it "must raise that both keys are missing" do
+        error = proc { spritesheet }.must_raise Gosu::MissingAnimationKeys
+        error.message.must_match(/Missing :range and :duration on block:/)
+      end
+    end
+
+    describe "and a custom animation block is missing one key" do
+      let(:missing_range) {
+        Gosu::Spritesheet.new({
+          :tiles => dude_tiles,
+          :animations => {
+            :my_custom_animation => { duration: 0.2 }
+          }
+        })
+      }
+
+      let(:missing_duration) {
+        Gosu::Spritesheet.new({
+          :tiles => dude_tiles,
+          :animations => {
+            :my_custom_animation => { range: [0..3] }
+          }
+        })
+      }
+
+      it "must say that range key is missing" do
+        error = proc { missing_range }.must_raise Gosu::MissingAnimationKeys
+        error.message.must_match(/Missing :range on block:/)
+      end
+
+      it "must say that duration key is missing" do
+        error = proc { missing_duration }.must_raise Gosu::MissingAnimationKeys
+        error.message.must_match(/Missing :duration on block:/)
       end
     end
   end
