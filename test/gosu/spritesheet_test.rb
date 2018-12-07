@@ -34,6 +34,19 @@ describe Gosu::Spritesheet do
         spritesheet.animation(:default).duration.must_equal 0.2
       end
     end
+
+    describe "and a duration is provided for the default animation" do
+      let(:spritesheet) {
+        Gosu::Spritesheet.new({
+          :tiles => dude_tiles,
+          :duration => 1.0
+        })
+      }
+
+      it "must specify the default animation duration" do
+        spritesheet.animation(:default).duration.must_equal 1.0
+      end
+    end
     
     describe "and a animation block called default is provided" do
       let(:spritesheet) { 
