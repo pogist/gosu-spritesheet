@@ -6,8 +6,9 @@ module Gosu
   class UnknownAnimationKeys < StandardError; end
 
   class Spritesheet
-    def initialize(tiles: [], animations: nil)
+    def initialize(tiles: [], animations: nil, duration: 0.2)
       @tiles = tiles
+      @default_animation_duration = duration
       setup_animations(animations)
     end
 
@@ -20,7 +21,10 @@ module Gosu
       @animations = Hash.new
 
       if animations.nil?
-        @animations[:default] = Gosu::AnimationBlock.new(@tiles, 0.2)
+        @animations[:default] = Gosu::AnimationBlock.new(
+          @tiles, 
+          @default_animation_duration
+        )
       else
         animations.each do |key, value|
           @animations[key] = animation_from_spec(value)
