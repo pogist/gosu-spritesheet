@@ -8,7 +8,7 @@ module Gosu
   class Spritesheet
     def initialize(tiles: [], animations: nil, duration: 0.2)
       @tiles = tiles
-      @default_animation_duration = duration
+      @default_duration = duration
       setup_animations(animations)
     end
 
@@ -23,7 +23,7 @@ module Gosu
       if animations.nil?
         @animations[:default] = Gosu::AnimationBlock.new(
           @tiles, 
-          @default_animation_duration
+          @default_duration
         )
       else
         animations.each do |key, value|
