@@ -1,10 +1,4 @@
-# Gosu::Spritesheet
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gosu/spritesheet`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
+# Installation
 
 Add this line to your application's Gemfile:
 
@@ -20,19 +14,139 @@ Or install it yourself as:
 
     $ gem install gosu-spritesheet
 
-## Usage
+# Usage
 
-TODO: Write usage instructions here
+### Creating a simple spritesheet animation
 
-## Development
+```ruby
+require 'gosu'
+require 'gosu/spritesheet'
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+class Game < Gosu::Window
+  def initialize
+    tiles = Gosu::Image.load_tiles 'path/to/your/tiles.png', 10, 10
+    @spritesheet = Gosu::Spritesheet.new { :tiles => tiles }
+  end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+  def draw
+    x, y, z = #...the position of your animation on screen.
+
+    # Just draws the next animation frame on each iteration.
+    @spritesheet.animation(:default).step.draw x, y, z
+  end
+end
+
+Game.new.show
+```
+
+### A more complex example using custom animations
+
+Consider that your game object may have more than one animation with different
+frames each, but those frames are on the same image. That way, you can define 
+different animations for each set of frames:
+
+```ruby
+require 'gosu'
+require 'gosu/spritesheet'
+
+class Character
+  # x, y, z are our character's initial position.
+  def initialize(x, y, z)
+    @x, @y, @z = x, y, z
+    tiles = Gosu::Image.load_tiles 'path/to/your/tiles.png', 10, 10
+    
+    # Suppose your tile has 8 frames.
+    #
+    # The first 4 frames are your character walking left.
+    # And the other 4 your character walking right.
+    @spritesheet = Gosu::Spritesheet.new({
+      :tiles => tiles,
+      :animations => {
+        # Here we are taking the first 4 frames as the walking left
+        # animation frames.
+        :walk_left => { range: [0..3], duration: 0.2 },
+        # The other 4 are the frames of walking right.
+        :walk_right => { range: [4..7], duration: 0.2 }
+      }
+    })
+
+    # By default our character starts facing left and stopped.
+    @move_direction = :left
+    @moving = false
+  end
+  
+  def draw
+    # Let's decide which animation to draw.
+    animation_key = @move_direction == :left ? :walk_left : :walk_right
+
+    if @moving
+      # If our character is moving let's animate it!
+      @spritesheet.animation(animation_key).step.draw @x, @y, @z
+    else
+      # When our character isn't moving let's just draw its stopped frame.
+      @spritesheet.animation(animation_key).stop.draw @x, @y, @z
+    end
+  end
+
+  def walk(direction, speed)
+    @moving = true
+    @x += direction == :right ? speed : -speed
+  end
+  
+  def stop_moving
+    @moving = false
+  end
+end
+```
+
+Now that we have our character class ready let's use it!
+
+```ruby
+class Game < Gosu::Window
+  def initialize
+    super 800, 600 
+    # Let's start our character at the center of the screen.
+    @char = Character.new 400, 300
+  end
+
+  def draw
+    @char.draw
+  end
+
+  def update
+    if pressing_right?
+      @char.walk :right, 2
+    end
+
+    if pressing_left?
+      @char.walk :left, 2
+    end
+  end
+
+  def button_up(id)
+    # When the user stops pressing any button let's tell our character to stop
+    # moving.
+    @char.stop_moving
+  end
+
+  # Let's define some helper functions
+  def pressing_right?
+    Gosu::button_down?(Gosu::KbRight) or Gosu::button_down?(Gosu::GpRight)
+  end
+
+  def pressing_left?
+    Gosu::button_down?(Gosu::KbLeft) or Gosu::button_down?(Gosu::GpLeft)
+  end
+end
+
+Game.new.show
+```
+
+That's it.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/gosu-spritesheet.
+Just open a pull request. I'll read it, I promise.
 
 ## License
 
