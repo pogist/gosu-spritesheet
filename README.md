@@ -106,7 +106,7 @@ class Game < Gosu::Window
   def initialize
     super 800, 600 
     # Let's start our character at the center of the screen.
-    @char = Character.new 400, 300
+    @char = Character.new 400, 300, 1
   end
 
   def draw
