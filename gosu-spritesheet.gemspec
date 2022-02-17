@@ -30,9 +30,9 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.add_dependency "gosu", "~> 0.14"
+  spec.add_dependency "gosu", ">= 0.14", "< 2.0"
 
-  spec.add_development_dependency "bundler", "~> 1.17"
+  spec.add_development_dependency "bundler", "~> 2.3.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "minitest-reporters", "~> 1.3"

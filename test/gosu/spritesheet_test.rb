@@ -1,4 +1,4 @@
-require "test_helper"
+require_relative "../test_helper"
 require "gosu"
 
 describe Gosu::Spritesheet do
@@ -10,12 +10,12 @@ describe Gosu::Spritesheet do
   describe "when initialized from a tile set" do
     describe "and a custom animation block is provided" do
       let (:spritesheet) {
-        Gosu::Spritesheet.new({
+        Gosu::Spritesheet.new(
           :tiles => dude_tiles,
           :animations => {
             :my_custom_animation => { range: [0..3], duration: 0.3 }
           }
-        })
+        )
       }
 
       it "must be able to fetch the custom animation" do
@@ -37,10 +37,10 @@ describe Gosu::Spritesheet do
 
     describe "and a duration is provided for the default animation" do
       let(:spritesheet) {
-        Gosu::Spritesheet.new({
+        Gosu::Spritesheet.new(
           :tiles => dude_tiles,
           :duration => 1.0
-        })
+        )
       }
 
       it "must specify the default animation duration" do
@@ -50,12 +50,12 @@ describe Gosu::Spritesheet do
     
     describe "and a animation block called default is provided" do
       let(:spritesheet) { 
-        Gosu::Spritesheet.new({
+        Gosu::Spritesheet.new(
           :tiles => dude_tiles,
           :animations => {
             :default => { range: [0..3], duration: 0.3 }
           }
-        })
+        )
       }
 
       # Default animation options set during `default`'s initialization
@@ -70,12 +70,12 @@ describe Gosu::Spritesheet do
 
     describe "and a custom animation block is in a completely wrong format" do
       let(:spritesheet) {
-        Gosu::Spritesheet.new({
+        Gosu::Spritesheet.new(
           :tiles => dude_tiles,
           :animations => {
             :my_custom_animation => { frames: [0..3], anim_duration: 0.2 }
           }
-        })
+        )
       }
 
       it "must raise that both keys are missing" do
@@ -86,21 +86,21 @@ describe Gosu::Spritesheet do
 
     describe "and a custom animation block is missing one key" do
       let(:missing_range) {
-        Gosu::Spritesheet.new({
+        Gosu::Spritesheet.new(
           :tiles => dude_tiles,
           :animations => {
             :my_custom_animation => { duration: 0.2 }
           }
-        })
+        )
       }
 
       let(:missing_duration) {
-        Gosu::Spritesheet.new({
+        Gosu::Spritesheet.new(
           :tiles => dude_tiles,
           :animations => {
             :my_custom_animation => { range: [0..3] }
           }
-        })
+        )
       }
 
       it "must say that range key is missing" do
