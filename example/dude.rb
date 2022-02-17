@@ -7,13 +7,13 @@ class Dude
 
     @tiles = Gosu::Image.load_tiles 'sprites/dude.png', 32, 48
 
-    @spritesheet = Gosu::Spritesheet.new({
+    @spritesheet = Gosu::Spritesheet.new(
       :tiles => @tiles,
       :animations => {
         :walk_left => { range: [0..3], duration: 0.2 },
         :walk_right => { range: [5..8], duration: 0.2 }
       }
-    })
+    )
 
     @moving = false
     @facing = :left
